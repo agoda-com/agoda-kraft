@@ -26,10 +26,9 @@ distributions:
   kraft:
     type: JAVA_BINARY
     artifacts:
-      - { path: "build/libs/agoda-kraft-{{projectVersion}}.jar", transform: "agoda-kraft-{{projectVersion}}.jar" }
-    files:
-      - { path: "build/libs/agoda-kraft-{{projectVersion}}-sources.jar", transform: "agoda-kraft-{{projectVersion}}-sources.jar" }
-      - { path: "build/libs/agoda-kraft-{{projectVersion}}-javadoc.jar", transform: "agoda-kraft-{{projectVersion}}-javadoc.jar" }
+      - { path: "build/libs/agoda-kraft-{{projectVersion}}.jar" }
+      - { path: "build/libs/agoda-kraft-{{projectVersion}}-sources.jar", classifier: "sources" }
+      - { path: "build/libs/agoda-kraft-{{projectVersion}}-javadoc.jar", classifier: "javadoc" }
 
 deploy:
   maven:
