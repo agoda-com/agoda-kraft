@@ -1,0 +1,39 @@
+project:
+  name: agoda-kraft
+  description: A library for measuring and improving developer experience on local workstations.
+  authors:
+    - Joel Dickson
+  license: Apache-2.0
+  links:
+    homepage: "https://github.com/agodadev/testmetrics"
+  java:
+    groupId: io.agodadev
+    artifactId: agoda-kraft
+    version: "11"
+  maintainers:
+    - joeldickson
+  copyright: 2024 Agoda
+
+release:
+  github:
+    owner: agodadev
+    name: agoda-kraft
+
+signing:
+  active: ALWAYS
+  armored: true
+
+distributions:
+  app:
+    type: JAVA_BINARY
+    artifacts:
+      - path: agoda-kraft/build/libs/{{projectName}}-{{projectVersion}}.jar
+
+deploy:
+  maven:
+    mavenCentral:
+      app:
+        active: ALWAYS
+        url: https://central.sonatype.com/api/v1/publisher
+        stagingRepositories:
+          - junit-listener/build/staging-deploy
