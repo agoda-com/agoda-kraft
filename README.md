@@ -38,21 +38,26 @@ Configure Ktlint and Detekt in your project to use Agoda Kraft rules. Don't worr
 ## Development Setup
 
 1. Clone the repository:
-   ```
-   git clone https://github.com/agoda-com/agoda-kraft.git
-   ```
-2. Open the project in IntelliJ IDEA. 
-   
+
+```bash
+git clone https://github.com/agoda-com/agoda-kraft.git
+```
+
+2. Open the project in IntelliJ IDEA.
+
    What's that? You prefer VS Code? Well, we suppose you could use it, but let's just say JetB... Just kidding, use whatever you like – we're not the IDE police.
 
 3. Build the project:
-   ```
-   ./gradlew build
-   ```
+
+```bash
+./gradlew build
+```
+
 4. Run tests:
-   ```
-   ./gradlew test
-   ```
+
+```bash
+./gradlew test
+```
 
 ## Contributing
 
