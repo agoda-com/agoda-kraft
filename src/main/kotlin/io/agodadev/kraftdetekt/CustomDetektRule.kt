@@ -1,6 +1,10 @@
 package io.agodadev.kraftdetekt
 
-import io.gitlab.arturbosch.detekt.api.*
+import io.gitlab.arturbosch.detekt.api.Config
+import io.gitlab.arturbosch.detekt.api.Issue
+import io.gitlab.arturbosch.detekt.api.Rule
+import io.gitlab.arturbosch.detekt.api.Severity
+import io.gitlab.arturbosch.detekt.api.Debt
 import org.jetbrains.kotlin.psi.KtCallExpression
 
 class CustomDetektRule(config: Config) : Rule(config) {
