@@ -30,11 +30,9 @@ distributions:
 
 deploy:
   maven:
-    nexus2:
-      maven-central:
+    mavenCentral:
+      app:
         active: ALWAYS
-        url: https://oss.sonatype.org/service/local
-        closeRepository: true
-        releaseRepository: true
+        url: https://central.sonatype.com/api/v1/publisher
         stagingRepositories:
           - build/staging-deploy
