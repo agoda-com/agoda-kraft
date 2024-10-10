@@ -96,6 +96,4 @@ jobs:
           SONATYPE_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
         working-directory: .github/tools
-        run: |
-          sh check_publish.sh --namespace io.agodadev --bundle-name kraft-ktlint --bundle-version ${{ env.MAJOR_MINOR_VERSION }}${{ github.run_number }}
-          sh check_publish.sh --namespace io.agodadev --bundle-name kraft-detekt --bundle-version ${{ env.MAJOR_MINOR_VERSION }}${{ github.run_number }}
+        run: sh check_publish.sh --namespace io.agodadev --bundle-name agoda-kraft --bundle-version ${{ env.MAJOR_MINOR_VERSION }}${{ github.run_number }}
