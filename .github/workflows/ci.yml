@@ -1,0 +1,101 @@
+name: Agoda Kraft CI
+on:
+  push:
+env:
+  JAVA_VERSION: 11
+  JAVA_DISTRIBUTION: "adopt"
+  MAJOR_MINOR_VERSION: 0.1.
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+      - name: Build
+        run: ./gradlew clean build
+      - name: Test
+        run: ./gradlew test
+
+  release-dryrun:
+    name: Release Dry-Run
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+      - name: Create staging repositories
+        run: ./gradlew -Pversion=${{ env.MAJOR_MINOR_VERSION }}${{ github.run_number }} publish
+      - name: Run JReleaser
+        uses: jreleaser/release-action@v2
+        with:
+          arguments: full-release --dry-run
+        env:
+          JRELEASER_PROJECT_VERSION: ${{ env.MAJOR_MINOR_VERSION }}${{ github.run_number }}
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JRELEASER_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.GPG_PUBLIC_KEY }}
+          JRELEASER_GPG_SECRET_KEY: ${{ secrets.GPG_SECRET_KEY }}
+          JRELEASER_MAVENCENTRAL_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          JRELEASER_MAVENCENTRAL_TOKEN: ${{ secrets.OSSRH_TOKEN }}
+      - name: JReleaser release output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jreleaser-release
+          path: |
+            out/jreleaser/trace.log
+            out/jreleaser/output.properties
+
+  release:
+    name: Release
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+      - name: Create staging repositories
+        run: ./gradlew -Pversion=${{ env.MAJOR_MINOR_VERSION }}${{ github.run_number }} publish
+      - name: Run JReleaser
+        uses: jreleaser/release-action@v2
+        env:
+          JRELEASER_PROJECT_VERSION: ${{ env.MAJOR_MINOR_VERSION }}${{ github.run_number }}
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JRELEASER_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.GPG_PUBLIC_KEY }}
+          JRELEASER_GPG_SECRET_KEY: ${{ secrets.GPG_SECRET_KEY }}
+          JRELEASER_MAVENCENTRAL_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          JRELEASER_MAVENCENTRAL_TOKEN: ${{ secrets.OSSRH_TOKEN }}
+        continue-on-error: true
+      - name: JReleaser release output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jreleaser-release
+          path: |
+            out/jreleaser/trace.log
+            out/jreleaser/output.properties
+        continue-on-error: true
+      - name: Verify Published Artifact
+        env:
+          SONATYPE_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+        working-directory: .github/tools
+        run: |
+          sh check_publish.sh --namespace io.agodadev --bundle-name kraft-ktlint --bundle-version ${{ env.MAJOR_MINOR_VERSION }}${{ github.run_number }}
+          sh check_publish.sh --namespace io.agodadev --bundle-name kraft-detekt --bundle-version ${{ env.MAJOR_MINOR_VERSION }}${{ github.run_number }}
