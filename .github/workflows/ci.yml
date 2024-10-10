@@ -35,9 +35,7 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: ${{ env.JAVA_DISTRIBUTION }}
       - name: Create staging repositories
-        run: |
-          ls -al build/libs
-          ./gradlew -Pversion=${{ env.MAJOR_MINOR_VERSION }}${{ github.run_number }} publish
+        run: ./gradlew -Pversion=${{ env.MAJOR_MINOR_VERSION }}${{ github.run_number }} publish
       - name: Run JReleaser
         uses: jreleaser/release-action@v2
         with:
