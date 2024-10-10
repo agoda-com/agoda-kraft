@@ -41,9 +41,22 @@ tasks.test {
     useJUnitPlatform()
 }
 
+tasks.named<Jar>("jar") {
+    archiveBaseName.set("agoda-kraft")
+}
+
+tasks.named<Jar>("javadocJar") {
+    archiveBaseName.set("agoda-kraft")
+}
+
+tasks.named<Jar>("sourcesJar") {
+    archiveBaseName.set("agoda-kraft")
+}
+
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
+            artifactId = "agoda-kraft"
             from(components["java"])
             pom {
                 name.set("agoda-kraft")
