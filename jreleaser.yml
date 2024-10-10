@@ -23,14 +23,12 @@ signing:
   armored: true
 
 distributions:
-  kraft-ktlint:
+  kraft:
     type: JAVA_BINARY
     artifacts:
-      - path: build/libs/kraft-ktlint-{{projectVersion}}.jar
-  kraft-detekt:
-    type: JAVA_BINARY
-    artifacts:
-      - path: build/libs/kraft-detekt-{{projectVersion}}.jar
+      - path: "build/libs/agoda-kraft-{{projectVersion}}.jar"
+      - path: "build/libs/agoda-kraft-{{projectVersion}}-sources.jar"
+      - path: "build/libs/agoda-kraft-{{projectVersion}}-javadoc.jar"
 
 deploy:
   maven:

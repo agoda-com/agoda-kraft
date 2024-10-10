@@ -70,4 +70,9 @@ publishing {
             }
         }
     }
+    repositories {
+        maven {
+            url = uri(layout.buildDirectory.dir("staging-deploy").get().asFile.toString())
+        }
+    }
 }
