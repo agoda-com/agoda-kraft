@@ -1,22 +1,21 @@
 project:
   name: agoda-kraft
-  description: A library for measuring and improving developer experience on local workstations.
+  description: Agoda's opinionated Kotlin code quality tools based on experience at scale
   authors:
-    - Joel Dickson
+    - Agoda
   license: Apache-2.0
   links:
-    homepage: "https://github.com/agodadev/testmetrics"
+    homepage: "https://github.com/agoda-com/agoda-kraft"
   java:
     groupId: io.agodadev
-    artifactId: agoda-kraft
     version: "11"
   maintainers:
-    - joeldickson
+    - Agoda
   copyright: 2024 Agoda
 
 release:
   github:
-    owner: agodadev
+    owner: agoda-com
     name: agoda-kraft
 
 signing:
@@ -24,16 +23,22 @@ signing:
   armored: true
 
 distributions:
-  app:
+  kraft-ktlint:
     type: JAVA_BINARY
     artifacts:
-      - path: agoda-kraft/build/libs/{{projectName}}-{{projectVersion}}.jar
+      - path: build/libs/kraft-ktlint-{{projectVersion}}.jar
+  kraft-detekt:
+    type: JAVA_BINARY
+    artifacts:
+      - path: build/libs/kraft-detekt-{{projectVersion}}.jar
 
 deploy:
   maven:
-    mavenCentral:
-      app:
+    nexus2:
+      maven-central:
         active: ALWAYS
-        url: https://central.sonatype.com/api/v1/publisher
+        url: https://oss.sonatype.org/service/local
+        closeRepository: true
+        releaseRepository: true
         stagingRepositories:
-          - junit-listener/build/staging-deploy
+          - build/staging-deploy
