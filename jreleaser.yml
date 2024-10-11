@@ -1,0 +1,38 @@
+project:
+  name: agoda-kraft
+  description: Agoda's opinionated Kotlin code quality tools based on experience at scale
+  authors:
+    - Agoda
+  license: Apache-2.0
+  links:
+    homepage: "https://github.com/agoda-com/agoda-kraft"
+  java:
+    groupId: io.agodadev
+    version: "11"
+  maintainers:
+    - Agoda
+  copyright: 2024 Agoda
+
+release:
+  github:
+    owner: agoda-com
+    name: agoda-kraft
+
+signing:
+  active: ALWAYS
+  armored: true
+
+distributions:
+  kraft:
+    type: JAVA_BINARY
+    artifacts:
+      - path: "build/libs/agoda-kraft-{{projectVersion}}.jar"
+
+deploy:
+  maven:
+    mavenCentral:
+      app:
+        active: ALWAYS
+        url: https://central.sonatype.com/api/v1/publisher
+        stagingRepositories:
+          - build/staging-deploy
