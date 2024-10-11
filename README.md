@@ -45,7 +45,7 @@ git clone https://github.com/agoda-com/agoda-kraft.git
 
 2. Open the project in IntelliJ IDEA.
 
-   What's that? You prefer VS Code? Well, we suppose you could use it, but let's just say JetB... Just kidding, use whatever you like – we're not the IDE police.
+What's that? You prefer VS Code? Well, we suppose you could use it, but let's just say JetB... Just kidding, use whatever you like – we're not the IDE police.
 
 3. Build the project:
 
