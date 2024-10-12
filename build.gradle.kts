@@ -28,15 +28,16 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation("com.pinterest.ktlint:ktlint-core:0.48.2")
-    implementation("io.gitlab.arturbosch.detekt:detekt-api:1.22.0")
+    implementation("io.gitlab.arturbosch.detekt:detekt-api:1.23.0")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")
 
+    testImplementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.5.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-    testImplementation("io.gitlab.arturbosch.detekt:detekt-test:1.22.0")
+    testImplementation("io.gitlab.arturbosch.detekt:detekt-test:1.23.0")
     testImplementation("org.mockito:mockito-core:4.8.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
-    testImplementation("org.assertj:assertj-core:3.21.0")
+    testImplementation("org.assertj:assertj-core:3.24.2")
 }
 
 tasks.test {
