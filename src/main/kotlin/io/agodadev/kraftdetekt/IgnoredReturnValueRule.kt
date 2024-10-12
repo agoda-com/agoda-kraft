@@ -18,49 +18,28 @@ class IgnoredReturnValueRule(config: Config) : Rule(config) {
     override fun visitCallExpression(expression: KtCallExpression) {
         super.visitCallExpression(expression)
 
-        println("Visiting call expression: ${expression.text}")
-
-        // Ignore constructor calls and calls within throw expressions
         if (expression.calleeExpression is KtConstructorCalleeExpression || isWithinThrowExpression(expression)) {
-            println("  Ignoring constructor call or throw expression")
             return
         }
 
-        val resolvedCall = expression.getResolvedCall(bindingContext)
-        if (resolvedCall == null) {
-            println("  Resolved call is null")
-            return
-        }
-
-        val returnType = resolvedCall.resultingDescriptor.returnType
-        if (returnType == null) {
-            println("  Return type is null")
-            return
-        }
-
-        println("  Return type: $returnType")
-        println("  Is Unit: ${returnType.isUnit()}")
-        println("  Is Nothing: ${returnType.isNothing()}")
+        val resolvedCall = expression.getResolvedCall(bindingContext) ?: return
+        val returnType = resolvedCall.resultingDescriptor.returnType ?: return
 
         if (!returnType.isUnit() && !returnType.isNothing()) {
             val parent = expression.parent
-            println("  Parent: ${parent?.javaClass?.simpleName}")
-
             when {
-                parent is KtValueArgument -> println("  Parent is KtValueArgument")
-                parent is KtProperty -> println("  Parent is KtProperty")
-                parent is KtReturnExpression -> println("  Parent is KtReturnExpression")
-                parent is KtBinaryExpression && parent.operationToken.toString() == "EQ" -> println("  Parent is assignment")
-                parent is KtIfExpression && expression == parent.condition -> println("  Parent is if condition")
-                parent is KtWhenConditionWithExpression -> println("  Parent is when condition")
-                parent is KtBinaryExpression && parent.operationToken.toString() in setOf("GT", "LT", "GTEQ", "LTEQ", "EQEQ", "EXCLEQ") -> println("  Parent is comparison")
-                parent is KtDotQualifiedExpression -> println("  Parent is dot qualified expression")
+                parent is KtValueArgument -> return
+                parent is KtProperty -> return
+                parent is KtReturnExpression -> return
+                parent is KtBinaryExpression && parent.operationToken.toString() == "EQ" -> return
+                parent is KtIfExpression && expression == parent.condition -> return
+                parent is KtWhenConditionWithExpression -> return
+                parent is KtBinaryExpression && parent.operationToken.toString() in setOf("GT", "LT", "GTEQ", "LTEQ", "EQEQ", "EXCLEQ") -> return
+                parent is KtDotQualifiedExpression -> return
                 parent is KtBlockExpression -> {
-                    println("  Parent is block expression")
                     val isLastStatement = parent.statements.lastOrNull() == expression
                     val isOnlyStatement = parent.statements.size == 1
                     if (!isLastStatement && !isOnlyStatement) {
-                        println("  Reporting issue: ignored return value in block")
                         report(CodeSmell(
                             issue,
                             Entity.from(expression),
@@ -69,7 +48,6 @@ class IgnoredReturnValueRule(config: Config) : Rule(config) {
                     }
                 }
                 else -> {
-                    println("  Reporting issue: general case")
                     report(CodeSmell(
                         issue,
                         Entity.from(expression),
@@ -77,8 +55,6 @@ class IgnoredReturnValueRule(config: Config) : Rule(config) {
                     ))
                 }
             }
-        } else {
-            println("  Not reporting: return type is Unit or Nothing")
         }
     }
 
