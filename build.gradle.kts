@@ -14,7 +14,7 @@ java {
     withJavadocJar()
     withSourcesJar()
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))  // To be compatible with lib consumers
+        languageVersion.set(JavaLanguageVersion.of(17))  // To be compatible with lib consumers
     }
 }
 

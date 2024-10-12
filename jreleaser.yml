@@ -8,7 +8,7 @@ project:
     homepage: "https://github.com/agoda-com/agoda-kraft"
   java:
     groupId: io.agodadev
-    version: "11"
+    version: "17"
   maintainers:
     - Agoda
   copyright: 2024 Agoda

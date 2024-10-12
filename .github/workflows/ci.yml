@@ -2,7 +2,7 @@ name: Agoda Kraft CI
 on:
   push:
 env:
-  JAVA_VERSION: 11
+  JAVA_VERSION: 17
   JAVA_DISTRIBUTION: "adopt"
   MAJOR_MINOR_VERSION: 0.1.
 
