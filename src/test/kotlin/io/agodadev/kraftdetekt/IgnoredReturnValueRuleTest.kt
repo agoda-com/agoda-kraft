@@ -29,7 +29,7 @@ class IgnoredReturnValueRuleTest {
             val x = returnsString()
             if (returnsInt() > 0) {}
         }
-        """.trimIndent()
+    """.trimIndent()
 
         val findings = IgnoredReturnValueRule(Config.empty).compileAndLintWithContext(env, code)
 
@@ -42,11 +42,14 @@ class IgnoredReturnValueRuleTest {
         }
 
         assertThat(findings).hasSize(2)
-        assertThat(findings[0].message).isEqualTo("The return value of this function call is ignored.")
-        assertThat(findings[1].message).isEqualTo("The return value of this function call is ignored.")
+        assertThat(findings.map { it.entity.signature }).containsExactlyInAnyOrder(
+            "Test.kt\$returnsString()",
+            "Test.kt\$returnsInt()"
+        )
+        findings.forEach { finding ->
+            assertThat(finding.message).isEqualTo("The return value of this function call is ignored.")
+        }
     }
-
-    // Update other test methods similarly...
 
     @Test
     fun `does not report when return value is explicitly ignored with underscore`() {

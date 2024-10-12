@@ -1,6 +1,7 @@
 package io.agodadev.kraftdetekt
 
 import io.gitlab.arturbosch.detekt.api.*
+import org.jetbrains.kotlin.com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.resolve.calls.util.getResolvedCall
 import org.jetbrains.kotlin.types.typeUtil.isNothing
@@ -19,9 +20,9 @@ class IgnoredReturnValueRule(config: Config) : Rule(config) {
 
         println("Visiting call expression: ${expression.text}")
 
-        // Ignore constructor calls
-        if (expression.calleeExpression is KtConstructorCalleeExpression) {
-            println("  Ignoring constructor call")
+        // Ignore constructor calls and calls within throw expressions
+        if (expression.calleeExpression is KtConstructorCalleeExpression || isWithinThrowExpression(expression)) {
+            println("  Ignoring constructor call or throw expression")
             return
         }
 
@@ -56,7 +57,9 @@ class IgnoredReturnValueRule(config: Config) : Rule(config) {
                 parent is KtDotQualifiedExpression -> println("  Parent is dot qualified expression")
                 parent is KtBlockExpression -> {
                     println("  Parent is block expression")
-                    if (parent.statements.lastOrNull() != expression) {
+                    val isLastStatement = parent.statements.lastOrNull() == expression
+                    val isOnlyStatement = parent.statements.size == 1
+                    if (!isLastStatement && !isOnlyStatement) {
                         println("  Reporting issue: ignored return value in block")
                         report(CodeSmell(
                             issue,
@@ -77,5 +80,16 @@ class IgnoredReturnValueRule(config: Config) : Rule(config) {
         } else {
             println("  Not reporting: return type is Unit or Nothing")
         }
+    }
+
+    private fun isWithinThrowExpression(expression: KtExpression): Boolean {
+        var current: PsiElement? = expression
+        while (current != null && current !is KtFunction) {
+            if (current is KtThrowExpression) {
+                return true
+            }
+            current = current.parent
+        }
+        return false
     }
 }
