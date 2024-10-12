@@ -3,7 +3,6 @@ package io.agodadev.kraftdetekt
 import io.gitlab.arturbosch.detekt.api.*
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.resolve.calls.util.getResolvedCall
-import org.jetbrains.kotlin.resolve.BindingContext
 import org.jetbrains.kotlin.types.typeUtil.isNothing
 import org.jetbrains.kotlin.types.typeUtil.isUnit
 
@@ -74,3 +73,5 @@ class IgnoredReturnValueRule(config: Config) : Rule(config) {
         }
     }
 }
+
+
