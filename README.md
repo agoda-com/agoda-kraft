@@ -26,8 +26,8 @@ Add the following to your project's `build.gradle.kts`:
 
 ```kotlin
 dependencies {
-    implementation("io.agodadev:kraft-ktlint:1.0.0")
-    implementation("io.agodadev:kraft-detekt:1.0.0")
+    implementation("io.agodadev:agoda-kraft:0.1.X")
+
 }
 ```
 
