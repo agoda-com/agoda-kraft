@@ -34,7 +34,9 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation("io.gitlab.arturbosch.detekt:detekt-test:1.22.0")
     testImplementation("org.mockito:mockito-core:4.8.1")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    testImplementation("org.assertj:assertj-core:3.21.0")
 }
 
 tasks.test {
