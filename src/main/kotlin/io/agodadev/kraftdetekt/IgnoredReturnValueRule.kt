@@ -19,6 +19,12 @@ class IgnoredReturnValueRule(config: Config) : Rule(config) {
 
         println("Visiting call expression: ${expression.text}")
 
+        // Ignore constructor calls
+        if (expression.calleeExpression is KtConstructorCalleeExpression) {
+            println("  Ignoring constructor call")
+            return
+        }
+
         val resolvedCall = expression.getResolvedCall(bindingContext)
         if (resolvedCall == null) {
             println("  Resolved call is null")
@@ -73,5 +79,3 @@ class IgnoredReturnValueRule(config: Config) : Rule(config) {
         }
     }
 }
-
-

@@ -86,16 +86,24 @@ class IgnoredReturnValueRuleTest {
     @Test
     fun `does not report Unit and Nothing return types`() {
         val code = """
-            fun returnsNothing(): Nothing = throw Exception("Nothing")
-            fun returnsUnit(): Unit {}
-            
-            fun test() {
-                returnsNothing()
-                returnsUnit()
-            }
-        """.trimIndent()
+        fun returnsNothing(): Nothing = throw Exception("Nothing")
+        fun returnsUnit(): Unit {}
+        
+        fun test() {
+            returnsNothing()
+            returnsUnit()
+        }
+    """.trimIndent()
 
         val findings = IgnoredReturnValueRule(Config.empty).compileAndLintWithContext(wrapper.env, code)
+
+        println("Number of findings: ${findings.size}")
+        findings.forEachIndexed { index, finding ->
+            println("Finding $index:")
+            println("  Message: ${finding.message}")
+            println("  Location: ${finding.entity.location}")
+            println("  Signature: ${finding.entity.signature}")
+        }
 
         assertThat(findings).isEmpty()
     }
