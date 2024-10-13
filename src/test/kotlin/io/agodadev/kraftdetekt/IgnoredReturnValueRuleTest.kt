@@ -4,14 +4,13 @@ import io.gitlab.arturbosch.detekt.api.Config
 import io.gitlab.arturbosch.detekt.test.compileAndLintWithContext
 import io.github.detekt.test.utils.KotlinCoreEnvironmentWrapper
 import io.github.detekt.test.utils.createEnvironment
+import io.gitlab.arturbosch.detekt.rules.KotlinCoreEnvironmentTest
 import org.assertj.core.api.Assertions.assertThat
+import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
 import org.junit.jupiter.api.Test
 
-class IgnoredReturnValueRuleTest {
-
-    private val wrapper = createEnvironment()
-    private val env = wrapper.env
-
+@KotlinCoreEnvironmentTest
+class IgnoredReturnValueRuleTest(private val env: KotlinCoreEnvironment) {
 
     @Test
     fun `reports ignored return values`() {
@@ -63,7 +62,7 @@ class IgnoredReturnValueRuleTest {
             }
         """.trimIndent()
 
-        val findings = IgnoredReturnValueRule(Config.empty).compileAndLintWithContext(wrapper.env, code)
+        val findings = IgnoredReturnValueRule(Config.empty).compileAndLintWithContext(env, code)
 
         assertThat(findings).isEmpty()
     }
@@ -81,7 +80,7 @@ class IgnoredReturnValueRuleTest {
             }
         """.trimIndent()
 
-        val findings = IgnoredReturnValueRule(Config.empty).compileAndLintWithContext(wrapper.env, code)
+        val findings = IgnoredReturnValueRule(Config.empty).compileAndLintWithContext(env, code)
 
         assertThat(findings).isEmpty()
     }
@@ -98,7 +97,7 @@ class IgnoredReturnValueRuleTest {
         }
     """.trimIndent()
 
-        val findings = IgnoredReturnValueRule(Config.empty).compileAndLintWithContext(wrapper.env, code)
+        val findings = IgnoredReturnValueRule(Config.empty).compileAndLintWithContext(env, code)
 
         println("Number of findings: ${findings.size}")
         findings.forEachIndexed { index, finding ->

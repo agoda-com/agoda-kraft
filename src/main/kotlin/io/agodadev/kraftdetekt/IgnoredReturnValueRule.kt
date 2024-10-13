@@ -1,12 +1,15 @@
 package io.agodadev.kraftdetekt
 
 import io.gitlab.arturbosch.detekt.api.*
+import io.gitlab.arturbosch.detekt.api.internal.RequiresTypeResolution
 import org.jetbrains.kotlin.com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.resolve.BindingContext
 import org.jetbrains.kotlin.resolve.calls.util.getResolvedCall
 import org.jetbrains.kotlin.types.typeUtil.isNothing
 import org.jetbrains.kotlin.types.typeUtil.isUnit
 
+@RequiresTypeResolution
 class IgnoredReturnValueRule(config: Config) : Rule(config) {
     override val issue = Issue(
         javaClass.simpleName,
@@ -23,6 +26,7 @@ class IgnoredReturnValueRule(config: Config) : Rule(config) {
         }
 
         val resolvedCall = expression.getResolvedCall(bindingContext) ?: return
+
         val returnType = resolvedCall.resultingDescriptor.returnType ?: return
 
         if (!returnType.isUnit() && !returnType.isNothing()) {
