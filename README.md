@@ -41,6 +41,43 @@ As noted in docs about JVM/Gradle projects
 So the best way to run these is to run two gradle jobs in CI, one for test and one for main, this will 
 also allow you to parallelize in CI, so not necessarily a bad thing imo. 
 
+### Installation (Optional for intelij)
+
+In your project root, create a folder called `.idea`
+
+Create a file called `externalDependencies.xml` and add/merge the following.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalDependencies">
+    <plugin id="detekt" />
+  </component>
+</project>
+```
+
+This will prompt peple to isntall the detekt Intelij plugin, when they open your project for the first time.
+
+Then create a second file called `detekt.xml`, and add/merge this content.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DetektPluginSettings">
+    <option name="enableDetekt" value="true" />
+    <option name="enableForProjectResult" value="Accepted" />
+    <option name="enableFormatting" value="true" />
+    <option name="redirectChannels" value="true" />
+    <option name="treatAsErrors" value="true" />
+  </component>
+</project>
+```
+
+This will set the corect setting in the IDE to run detekt in teh background and prompt you if 
+there is problems from the IDE itself, isntead of awaiting for a CLI or CI run.
+
+Note: detekt rules that work with Type Resolution do not work in IDE, only in CLI, RE: [this issue](https://github.com/detekt/detekt-intellij-plugin/issues/499)
+
 ### Usage
 
 Configure Ktlint and Detekt in your project to use Agoda Kraft rules. Don't worry, they don't bite.
