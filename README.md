@@ -30,6 +30,17 @@ dependencies {
 }
 ```
 
+[Type Resolution](https://detekt.dev/docs/gettingstarted/type-resolution/) needs to be enabled for some of these rules to work
+
+As noted in docs about JVM/Gradle projects
+
+- detekt - Runs detekt `WITHOUT` type resolution
+- detektMain - Runs detekt with type resolution on the `main` source set
+- detektTest - Runs detekt with type resolution on the `test` source set
+
+So the best way to run these is to run two gradle jobs in CI, one for test and one for main, this will 
+also allow you to parallelize in CI, so not necessarily a bad thing imo. 
+
 ### Usage
 
 Configure Ktlint and Detekt in your project to use Agoda Kraft rules. Don't worry, they don't bite.
