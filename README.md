@@ -16,8 +16,8 @@ Agoda Kraft is a collection of opinionated Kotlin code quality tools, born from 
 
 ### Prerequisites
 
-- JDK 11 or higher
-- Gradle 7.0 or higher
+- JDK 17 or higher
+- Gradle 7.4 or higher
 - An undying love for clean code (or at least a strong tolerance for it)
 
 ### Installation
@@ -30,22 +30,22 @@ dependencies {
 }
 ```
 
-[Type Resolution](https://detekt.dev/docs/gettingstarted/type-resolution/) needs to be enabled for some of these rules to work
+[Type Resolution](https://detekt.dev/docs/gettingstarted/type-resolution/) needs to be enabled for some of these rules to work.
 
-As noted in docs about JVM/Gradle projects
+As noted in docs about JVM/Gradle projects:
 
 - detekt - Runs detekt `WITHOUT` type resolution
 - detektMain - Runs detekt with type resolution on the `main` source set
 - detektTest - Runs detekt with type resolution on the `test` source set
 
-So the best way to run these is to run two gradle jobs in CI, one for test and one for main, this will 
-also allow you to parallelize in CI, so not necessarily a bad thing imo. 
+So the best way to run these is to run two Gradle jobs in CI, one for test and one for main. This will 
+also allow you to parallelize in CI, which is not necessarily a bad thing.
 
-### Installation (Optional for intelij)
+### Installation (Optional for IntelliJ)
 
-In your project root, create a folder called `.idea`
+In your project root, create a folder called `.idea`.
 
-Create a file called `externalDependencies.xml` and add/merge the following.
+Create a file called `externalDependencies.xml` and add/merge the following:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -56,9 +56,9 @@ Create a file called `externalDependencies.xml` and add/merge the following.
 </project>
 ```
 
-This will prompt peple to isntall the detekt Intelij plugin, when they open your project for the first time.
+This will prompt people to install the Detekt IntelliJ plugin when they open your project for the first time.
 
-Then create a second file called `detekt.xml`, and add/merge this content.
+Then create a second file called `detekt.xml`, and add/merge this content:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -73,10 +73,10 @@ Then create a second file called `detekt.xml`, and add/merge this content.
 </project>
 ```
 
-This will set the corect setting in the IDE to run detekt in teh background and prompt you if 
-there is problems from the IDE itself, isntead of awaiting for a CLI or CI run.
+This will set the correct settings in the IDE to run Detekt in the background and prompt you if 
+there are problems from the IDE itself, instead of waiting for a CLI or CI run.
 
-Note: detekt rules that work with Type Resolution do not work in IDE, only in CLI, RE: [this issue](https://github.com/detekt/detekt-intellij-plugin/issues/499)
+Note: Detekt rules that work with Type Resolution do not work in the IDE, only in CLI, RE: [this issue](https://github.com/detekt/detekt-intellij-plugin/issues/499)
 
 ### Usage
 
@@ -110,7 +110,7 @@ What's that? You prefer VS Code? Well, we suppose you could use it, but let's ju
 
 We welcome contributions! If you've found a bug or have a feature request, please open an issue. If you'd like to contribute code, please fork the repository and submit a pull request.
 
-Remember, static code analysis isn't about enforcing, its about educating people, there's a reason we write code in a particular way to keep it consistent and have less bugs, we all should be brought in and understand why we are writing code in a particular way. Let code analysis tools be a teacher, not a police officers, and it'll make for better engineering culture.
+Remember, static code analysis isn't about enforcing; it's about educating people. There's a reason we write code in a particular way to keep it consistent and have fewer bugs. We all should be brought in and understand why we are writing code in a particular way. Let code analysis tools be teachers, not police officers, and it'll make for a better engineering culture.
 
 ## License
 
