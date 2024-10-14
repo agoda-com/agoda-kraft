@@ -9,14 +9,17 @@ import org.jetbrains.kotlin.resolve.calls.util.getResolvedCall
 import org.jetbrains.kotlin.types.typeUtil.isNothing
 import org.jetbrains.kotlin.types.typeUtil.isUnit
 
+const val IGNORED_RETURN_VALUE: String = "AG001: The return value of this function call is ignored. see https://github.com/agoda-com/agoda-kraft/blob/main/doc/AG001.md"
+
 @RequiresTypeResolution
 class IgnoredReturnValueRule(config: Config) : Rule(config) {
     override val issue = Issue(
         javaClass.simpleName,
         Severity.Warning,
-        "This rule reports when a function call's return value is ignored.",
+        "AG001: This rule reports when a function call's return value is ignored. see https://github.com/agoda-com/agoda-kraft/blob/main/doc/AG001.md",
         Debt.FIVE_MINS
     )
+
 
     override fun visitCallExpression(expression: KtCallExpression) {
         super.visitCallExpression(expression)
@@ -47,7 +50,7 @@ class IgnoredReturnValueRule(config: Config) : Rule(config) {
                         report(CodeSmell(
                             issue,
                             Entity.from(expression),
-                            "The return value of this function call is ignored."
+                            IGNORED_RETURN_VALUE
                         ))
                     }
                 }
@@ -55,7 +58,7 @@ class IgnoredReturnValueRule(config: Config) : Rule(config) {
                     report(CodeSmell(
                         issue,
                         Entity.from(expression),
-                        "The return value of this function call is ignored."
+                        IGNORED_RETURN_VALUE
                     ))
                 }
             }

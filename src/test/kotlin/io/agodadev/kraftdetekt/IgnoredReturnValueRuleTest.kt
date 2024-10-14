@@ -46,7 +46,7 @@ class IgnoredReturnValueRuleTest(private val env: KotlinCoreEnvironment) {
             "Test.kt\$returnsInt()"
         )
         findings.forEach { finding ->
-            assertThat(finding.message).isEqualTo("The return value of this function call is ignored.")
+            assertThat(finding.message).isEqualTo(IGNORED_RETURN_VALUE)
         }
     }
 
